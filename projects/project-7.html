@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sleep Duration &amp; Age · Nichol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-soft:#141414;
+    --border:rgba(255,255,255,0.08);
+    --ink:#ffffff;
+    --ink-dim:#8a8a8a;
+    --ink-faint:#5a5a5a;
+    --accent:#ff4a2e;
+    --hero-tint:#4f46e5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  nav .brand{color:var(--ink);font-weight:500}
+  nav .back{
+    color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+    transition:color 0.2s;
+  }
+  nav .back:hover{color:var(--ink)}
+
+  /* HERO SECTION */
+  .project-hero{
+    padding:140px 0 60px;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,0.04),transparent 60%),
+      linear-gradient(180deg,var(--hero-tint),transparent 80%);
+    border-bottom:1px solid var(--border);
+  }
+  .tag-row{
+    display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;
+  }
+  .tag{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,0.08);color:var(--ink);
+    backdrop-filter:blur(10px);
+  }
+  .tag.featured{background:var(--accent);color:#fff}
+  h1.project-title{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(36px,6vw,56px);font-weight:400;
+    letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;
+  }
+  .project-lede{
+    font-family:'Instrument Serif',serif;font-size:22px;
+    color:var(--ink-dim);line-height:1.4;max-width:600px;
+  }
+  .project-lede em{color:var(--ink);font-style:italic}
+
+  /* META BAR */
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    margin:48px 0 0;padding:24px 0;
+    border-top:1px solid var(--border);
+  }
+  .meta-cell .label{
+    font-size:10px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:8px;
+  }
+  .meta-cell .value{font-size:14px;color:var(--ink)}
+
+  /* CONTENT */
+  section.content{padding:80px 0;border-bottom:1px solid var(--border)}
+  section.content:last-of-type{border-bottom:none}
+  h2{
+    font-size:26px;font-weight:600;letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  h3{
+    font-size:15px;font-weight:600;
+    color:var(--ink);margin:32px 0 10px;
+  }
+  p{color:var(--ink-dim);margin-bottom:18px;font-size:15px;line-height:1.7}
+  p strong{color:var(--ink);font-weight:500}
+  ul{color:var(--ink-dim);padding-left:20px;margin-bottom:18px}
+  ul li{margin-bottom:8px;line-height:1.7}
+  code{
+    font-family:ui-monospace,'SF Mono',Menlo,monospace;
+    font-size:13px;background:rgba(255,255,255,0.06);
+    padding:2px 6px;border-radius:5px;color:var(--ink);
+  }
+
+  .callout{
+    padding:24px 28px;border-left:2px solid var(--accent);
+    background:rgba(255,74,46,0.04);border-radius:0 8px 8px 0;
+    margin:32px 0;
+  }
+  .callout p{margin:0;color:var(--ink);font-size:15px}
+
+  /* METRICS */
+  .metrics{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    margin:32px 0;
+  }
+  .metric{
+    padding:24px;border:1px solid var(--border);border-radius:12px;
+    text-align:center;
+  }
+  .metric .num{
+    font-family:'Instrument Serif',serif;font-size:40px;
+    color:var(--ink);line-height:1;margin-bottom:8px;
+  }
+  .metric .lbl{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    color:var(--ink-faint);
+  }
+
+  /* LINKS OUT */
+  .links{
+    display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;
+  }
+  .link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--ink);transition:all 0.2s;
+  }
+  .link-btn:hover{background:var(--ink);color:var(--bg)}
+
+  /* NEXT PROJECT */
+  .next{
+    padding:60px 0 80px;text-align:center;
+  }
+  .next .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:16px;
+  }
+  .next h3.next-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:40px;letter-spacing:-0.02em;margin-bottom:16px;
+    transition:color 0.3s;
+  }
+  .next a:hover .next-title{color:var(--accent)}
+  .next .arrow{font-size:13px;color:var(--ink-dim)}
+
+  footer{
+    padding:24px 0;border-top:1px solid var(--border);
+    text-align:center;font-size:12px;color:var(--ink-faint);
+  }
+
+  @media (max-width:720px){
+    nav{padding:16px 20px}
+    .project-hero{padding:100px 0 40px}
+    .meta-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+    .metrics{grid-template-columns:1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="brand">Nichol</a>
+  <a href="../index.html#projects" class="back">← All projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="wrap">
+    <div class="tag-row">
+      <span class="tag">Statistics</span>
+      <span class="tag">Multiple Regression</span>
+      <span class="tag">R</span>
+    </div>
+    <h1 class="project-title">What Shapes How Long We Sleep?</h1>
+    <p class="project-lede">A multiple regression study on nearly 3,000 CDC survey respondents, testing whether age predicts sleep duration, and a case study in <em>reporting a model honestly</em> when the diagnostics don't cooperate.</p>
+
+    <div class="meta-bar">
+      <div class="meta-cell">
+        <div class="label">Role</div>
+        <div class="value">Modeling &amp; diagnostics</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Team</div>
+        <div class="value">Three-person group</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Stack</div>
+        <div class="value">R, lm, lmtest, car</div>
+      </div>
+      <div class="meta-cell">
+        <div class="label">Data</div>
+        <div class="value">CDC NHANES</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTION -->
+<section class="content">
+  <div class="wrap">
+    <h2>Question</h2>
+    <p>Sleep is among the strongest predictors of long-term health, yet what actually <em>shapes</em> how long people sleep remains poorly understood. We framed the analysis around a deliberately skeptical null hypothesis: that <strong>age has no effect on sleep duration</strong>. Failing to reject it would itself have been informative.</p>
+    <p>We drew data from the CDC's <strong>National Health and Nutrition Examination Survey (NHANES)</strong>, regressing weekday sleep hours on age, gender, an income-to-poverty ratio, and weekly physical activity. After removing incomplete records and engineering the physical-activity variables, the analytic sample comprised <strong>2,991 respondents</strong>.</p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="content">
+  <div class="wrap">
+    <h2>Approach</h2>
+    <p>We began with a parsimonious specification and assessed each predictor before retaining it:</p>
+    <ul>
+      <li><strong>Simple model:</strong> <code>Sleep ~ Age + Gender + Poverty_Index</code></li>
+      <li><strong>Complex model:</strong> the same, plus log-transformed weekly physical activity</li>
+    </ul>
+    <p>Plotting sleep against age revealed a clearly non-linear relationship: sleep dipped through middle age and rose again toward the extremes. A straight line could not capture that, so I introduced a quadratic <code>Age²</code> term, which proved the turning point of the analysis.</p>
+    <p>Rather than stop at the coefficients, we subjected each model to a full battery of regression diagnostics:</p>
+    <ul>
+      <li><strong>Linearity</strong>: residual-vs-fitted plots</li>
+      <li><strong>Homoskedasticity</strong>: the Breusch-Pagan test</li>
+      <li><strong>Normality</strong>: Q-Q plots and Shapiro-Wilk</li>
+      <li><strong>Multicollinearity</strong>: variance inflation factors (VIF)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="content">
+  <div class="wrap">
+    <h2>Results</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">2,991</div>
+        <div class="lbl">Respondents</div>
+      </div>
+      <div class="metric">
+        <div class="num">&lt;1e-14</div>
+        <div class="lbl">Age p-value</div>
+      </div>
+      <div class="metric">
+        <div class="num">~2%</div>
+        <div class="lbl">Variance explained</div>
+      </div>
+    </div>
+    <p>With the quadratic term included, both <code>Age</code> and <code>Age²</code> were <strong>highly significant</strong> (p &lt; 1e-14). The data decisively <strong>rejected the null hypothesis</strong>: age bears a genuine, curvilinear relationship to sleep duration. Gender and physical activity, by contrast, were never significant once the remaining covariates were controlled for.</p>
+
+    <div class="callout">
+      <p>The essential caveat: although we rejected the null, the model explained only about <strong>2% of the variance in sleep duration</strong>. Age is statistically significant but substantively minor; most of what governs how long people sleep lies beyond these predictors.</p>
+    </div>
+
+    <p>The diagnostics raised concerns I report rather than omit. Breusch-Pagan indicated pronounced <strong>heteroskedasticity</strong> (p &lt; 2.2e-16), the Q-Q tails departed from normality, and <code>Age</code> and <code>Age²</code> were severely collinear (VIF ≈ 37). The model is significant, but its standard errors cannot be taken at face value.</p>
+
+    <h3>What I'd do next</h3>
+    <ul>
+      <li>Use <strong>robust standard errors</strong> to handle the heteroskedasticity</li>
+      <li><strong>Center age</strong> before squaring it to break the Age / Age² collinearity</li>
+      <li>Add <strong>interaction terms</strong> and other NHANES variables to capture more of the structure</li>
+    </ul>
+
+    <div class="links">
+      <a href="#" class="link-btn">View on GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAY -->
+<section class="content">
+  <div class="wrap">
+    <h2>Takeaway</h2>
+    <p>This project taught me that a near-zero R² and a vanishingly small p-value can coexist, and that the substantive work lies in explaining that tension. A statistically significant result with weak explanatory power and violated assumptions is not a failure to bury; it is the finding, reported with the caveats it warrants. I would rather demonstrate that I understand where a model breaks down than present it as an unqualified success.</p>
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<div class="wrap">
+  <section class="next">
+    <div class="eyebrow">Next</div>
+    <a href="../index.html#projects">
+      <h3 class="next-title">Back to all projects →</h3>
+    </a>
+    <div class="arrow">Eight projects · ML, deep learning &amp; applied research</div>
+  </section>
+</div>
+
+<footer>© 2026 Nichol Flowers</footer>
+
+</body>
+</html>

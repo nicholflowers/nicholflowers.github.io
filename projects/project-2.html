@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Race & Empathy in Childbirth Care · Nichol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-soft:#141414;
+    --border:rgba(255,255,255,0.08);
+    --ink:#ffffff;
+    --ink-dim:#8a8a8a;
+    --ink-faint:#5a5a5a;
+    --accent:#ff4a2e;
+    --hero-tint:#3d1f3d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  nav .brand{color:var(--ink);font-weight:500}
+  nav .back{
+    color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+    transition:color 0.2s;
+  }
+  nav .back:hover{color:var(--ink)}
+
+  .project-hero{
+    padding:140px 0 60px;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,0.04),transparent 60%),
+      linear-gradient(180deg,var(--hero-tint),transparent 80%);
+    border-bottom:1px solid var(--border);
+  }
+  .tag-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+  .tag{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,0.08);color:var(--ink);
+    backdrop-filter:blur(10px);
+  }
+  .tag.featured{background:var(--accent);color:#fff}
+  h1.project-title{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(36px,6vw,56px);font-weight:400;
+    letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;
+  }
+  .project-lede{
+    font-family:'Instrument Serif',serif;font-size:22px;
+    color:var(--ink-dim);line-height:1.4;max-width:600px;
+  }
+  .project-lede em{color:var(--ink);font-style:italic}
+
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    margin:48px 0 0;padding:24px 0;
+    border-top:1px solid var(--border);
+  }
+  .meta-cell .label{
+    font-size:10px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:8px;
+  }
+  .meta-cell .value{font-size:14px;color:var(--ink)}
+
+  section.content{padding:80px 0;border-bottom:1px solid var(--border)}
+  section.content:last-of-type{border-bottom:none}
+  h2{font-size:26px;font-weight:600;letter-spacing:-0.02em;margin-bottom:20px}
+  h3{font-size:15px;font-weight:600;color:var(--ink);margin:32px 0 10px}
+  p{color:var(--ink-dim);margin-bottom:18px;font-size:15px;line-height:1.7}
+  p strong{color:var(--ink);font-weight:500}
+  ul{color:var(--ink-dim);padding-left:20px;margin-bottom:18px}
+  ul li{margin-bottom:8px;line-height:1.7}
+
+  .callout{
+    padding:24px 28px;border-left:2px solid var(--accent);
+    background:rgba(255,74,46,0.04);border-radius:0 8px 8px 0;
+    margin:32px 0;
+  }
+  .callout p{margin:0;color:var(--ink);font-size:15px}
+
+  .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--ink);transition:all 0.2s;
+  }
+  .link-btn:hover{background:var(--ink);color:var(--bg)}
+
+  .next{padding:60px 0 80px;text-align:center}
+  .next .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:16px;
+  }
+  .next h3.next-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:40px;letter-spacing:-0.02em;margin-bottom:16px;
+    transition:color 0.3s;
+  }
+  .next a:hover .next-title{color:var(--accent)}
+  .next .arrow{font-size:13px;color:var(--ink-dim)}
+
+  footer{
+    padding:24px 0;border-top:1px solid var(--border);
+    text-align:center;font-size:12px;color:var(--ink-faint);
+  }
+
+  @media (max-width:720px){
+    nav{padding:16px 20px}
+    .project-hero{padding:100px 0 40px}
+    .meta-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="brand">Nichol</a>
+  <a href="../index.html#projects" class="back">← All projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="wrap">
+    <div class="tag-row">
+      <span class="tag">Research Design</span>
+      <span class="tag">Mixed Methods</span>
+      <span class="tag">Healthcare</span>
+    </div>
+    <h1 class="project-title">Race &amp; Empathy in Childbirth Care</h1>
+    <p class="project-lede">A mixed-methods research design proposal investigating racial disparities in how medical professionals respond to women in pain during childbirth.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="content">
+  <div class="wrap">
+    <h2>Problem</h2>
+    <p>Black women in the United States are roughly three times more likely to die from pregnancy-related causes than white women, and qualitative reports consistently describe medical professionals being less responsive to the pain of women of color during labor.</p>
+    <p>The goal was to develop a research proposal that demonstrates how a data science team would rigorously investigate this question. The central question: <strong>Does race impact how empathetically medical professionals respond to expressions of pain by a woman in labor?</strong> The methodological challenge was operationalizing "empathy" into something measurable across a sample while preserving its meaning.</p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="content">
+  <div class="wrap">
+    <h2>Approach</h2>
+    <p>We designed a convergent mixed-methods study combining four data streams:</p>
+    <ul>
+      <li><strong>Patient survey</strong> rating responsiveness on 1-5 scales across operationalized dimensions of empathy (acknowledgment of pain, suggestions for relief, speed of response to medication requests, verbal and physical comfort)</li>
+      <li><strong>Support person survey</strong> capturing the same observations from a witness in the room, providing triangulation</li>
+      <li><strong>Semi-structured interviews</strong> with both patients and support people, allowing themes to emerge that the survey couldn't anticipate</li>
+      <li><strong>Medical professional interviews</strong> establishing the standard of care so any deviation could be identified</li>
+    </ul>
+    <p>The sampling plan recruited equal numbers of white and non-white participants across socioeconomic strata. Validity safeguards included triangulation across data sources, member checking with participants, peer debriefing, and explicit attention to discrepant cases.</p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="content">
+  <div class="wrap">
+    <h2>Results</h2>
+    <p>This was a design proposal, not a completed study. The deliverable was the research framework itself: a study design rigorous enough to produce actionable evidence on whether racial disparities in empathy during childbirth exist and how they manifest.</p>
+    <p>The framework successfully operationalized empathy into measurable survey dimensions, established a sampling strategy that controls for socioeconomic confounds, and built in validity safeguards to ensure findings would hold up to scrutiny.</p>
+
+    <div class="links">
+      <a href="#" class="link-btn">View full proposal ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<div class="wrap">
+  <section class="next">
+    <div class="eyebrow">Next project</div>
+    <a href="project-3.html">
+      <h3 class="next-title">A Century of Plane Crashes →</h3>
+    </a>
+    <div class="arrow">Python · Pandas · GeoPy</div>
+  </section>
+</div>
+
+<footer>© 2026 Nichol Flowers</footer>
+
+</body>
+</html>

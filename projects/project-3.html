@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Century of Plane Crashes · Nichol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-soft:#141414;
+    --border:rgba(255,255,255,0.08);
+    --ink:#ffffff;
+    --ink-dim:#8a8a8a;
+    --ink-faint:#5a5a5a;
+    --accent:#ff4a2e;
+    --hero-tint:#2c3a1f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  nav .brand{color:var(--ink);font-weight:500}
+  nav .back{
+    color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+    transition:color 0.2s;
+  }
+  nav .back:hover{color:var(--ink)}
+
+  .project-hero{
+    padding:140px 0 60px;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,0.04),transparent 60%),
+      linear-gradient(180deg,var(--hero-tint),transparent 80%);
+    border-bottom:1px solid var(--border);
+  }
+  .tag-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+  .tag{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,0.08);color:var(--ink);
+    backdrop-filter:blur(10px);
+  }
+  .tag.featured{background:var(--accent);color:#fff}
+  h1.project-title{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(36px,6vw,56px);font-weight:400;
+    letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;
+  }
+  .project-lede{
+    font-family:'Instrument Serif',serif;font-size:22px;
+    color:var(--ink-dim);line-height:1.4;max-width:600px;
+  }
+  .project-lede em{color:var(--ink);font-style:italic}
+
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    margin:48px 0 0;padding:24px 0;
+    border-top:1px solid var(--border);
+  }
+  .meta-cell .label{
+    font-size:10px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:8px;
+  }
+  .meta-cell .value{font-size:14px;color:var(--ink)}
+
+  section.content{padding:80px 0;border-bottom:1px solid var(--border)}
+  section.content:last-of-type{border-bottom:none}
+  h2{font-size:26px;font-weight:600;letter-spacing:-0.02em;margin-bottom:20px}
+  h3{font-size:15px;font-weight:600;color:var(--ink);margin:32px 0 10px}
+  p{color:var(--ink-dim);margin-bottom:18px;font-size:15px;line-height:1.7}
+  p strong{color:var(--ink);font-weight:500}
+  ul{color:var(--ink-dim);padding-left:20px;margin-bottom:18px}
+  ul li{margin-bottom:8px;line-height:1.7}
+
+  .callout{
+    padding:24px 28px;border-left:2px solid var(--accent);
+    background:rgba(255,74,46,0.04);border-radius:0 8px 8px 0;
+    margin:32px 0;
+  }
+  .callout p{margin:0;color:var(--ink);font-size:15px}
+
+  .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--ink);transition:all 0.2s;
+  }
+  .link-btn:hover{background:var(--ink);color:var(--bg)}
+
+  .next{padding:60px 0 80px;text-align:center}
+  .next .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:16px;
+  }
+  .next h3.next-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:40px;letter-spacing:-0.02em;margin-bottom:16px;
+    transition:color 0.3s;
+  }
+  .next a:hover .next-title{color:var(--accent)}
+  .next .arrow{font-size:13px;color:var(--ink-dim)}
+
+  footer{
+    padding:24px 0;border-top:1px solid var(--border);
+    text-align:center;font-size:12px;color:var(--ink-faint);
+  }
+
+  @media (max-width:720px){
+    nav{padding:16px 20px}
+    .project-hero{padding:100px 0 40px}
+    .meta-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="brand">Nichol</a>
+  <a href="../index.html#projects" class="back">← All projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="wrap">
+    <div class="tag-row">
+      <span class="tag">Exploratory Data Analysis</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">Geographic Data</span>
+    </div>
+    <h1 class="project-title">A Century of Plane Crashes</h1>
+    <p class="project-lede">An exploratory analysis of more than a century of global plane crash data, looking at how aviation safety patterns have evolved across geography, operators, and crash causes from 1908 to 2024.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="content">
+  <div class="wrap">
+    <h2>Problem</h2>
+    <p>Aviation is now considered one of the safest modes of transportation, but the path to that distinction spans over a century. This project explored what plane crash data from 1908 to 2024 reveals about how safety patterns have shifted across geography, operators, and crash causes.</p>
+    <p>The raw data came from a Wikipedia archive organized across three nested page levels (year → crash list → accident details), with no standardized country field and several data integrity issues that needed to be identified and resolved before analysis.</p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="content">
+  <div class="wrap">
+    <h2>Approach</h2>
+    <p>The analysis was only as good as the dataset behind it, and that dataset didn't exist yet. The source was a Wikipedia archive spread across <strong>three nested page levels</strong> (year → crash list → individual accident details), so the first job was scraping and flattening that hierarchy into a single workable table. From there, the real work was in the cleaning. Location was stored as free text with no standardized country field, so I used <strong>GeoPy</strong> to resolve unstructured location strings into a consistent Country column, then binned 116 years into decades to make long-run comparisons legible.</p>
+    <p>The part that mattered most was refusing to trust the data at face value. Sanity checks surfaced two integrity problems that would have quietly skewed every downstream result: a <strong>mislabeled start date</strong> (the archive claimed 1920, but records actually began in 1908) and <strong>9/11 ground casualties that had been double-counted</strong> in the fatality totals. Catching those before analysis is the difference between an EDA that's interesting and one that's simply wrong. The cleaned dataset then drove Pandas and NumPy visualizations comparing US-only against global patterns.</p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="content">
+  <div class="wrap">
+    <h2>Results</h2>
+    <ul>
+      <li><strong>Geographic concentration.</strong> Crashes cluster in specific regions. Within the US, Alaska stood out for its disproportionate share of incidents, likely tied to terrain, weather, and small aircraft prevalence.</li>
+      <li><strong>Top operators.</strong> The top three operators by both crash count and fatalities were the same: Military (worldwide), Aeroflot, and Air France.</li>
+      <li><strong>Shifting risk profile.</strong> Earlier decades show more crashes but lower per-incident fatalities. Later decades show fewer crashes but higher fatalities per incident, consistent with larger aircraft and higher passenger loads.</li>
+      <li><strong>Evolving causes.</strong> Early decades were dominated by engine and weather failures. Recent decades skew toward landing and takeoff incidents, the riskiest phases of modern flight.</li>
+    </ul>
+
+    <div class="links">
+      <a href="#" class="link-btn">View on GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<div class="wrap">
+  <section class="next">
+    <div class="eyebrow">Next project</div>
+    <a href="project-4.html">
+      <h3 class="next-title">Predicting California Wildfires →</h3>
+    </a>
+    <div class="arrow">Classification · XGBoost</div>
+  </section>
+</div>
+
+<footer>© 2026 Nichol Flowers</footer>
+
+</body>
+</html>

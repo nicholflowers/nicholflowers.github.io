@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RAG System Design & Evaluation · Nichol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-soft:#141414;
+    --border:rgba(255,255,255,0.08);
+    --ink:#ffffff;
+    --ink-dim:#8a8a8a;
+    --ink-faint:#5a5a5a;
+    --accent:#ff4a2e;
+    --hero-tint:#1f3a3a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(10,10,10,0.8);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  nav .brand{color:var(--ink);font-weight:500}
+  nav .back{
+    color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+    transition:color 0.2s;
+  }
+  nav .back:hover{color:var(--ink)}
+
+  .project-hero{
+    padding:140px 0 60px;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,0.04),transparent 60%),
+      linear-gradient(180deg,var(--hero-tint),transparent 80%);
+    border-bottom:1px solid var(--border);
+  }
+  .tag-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+  .tag{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,0.08);color:var(--ink);
+    backdrop-filter:blur(10px);
+  }
+  h1.project-title{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(36px,6vw,56px);font-weight:400;
+    letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;
+  }
+  .project-lede{
+    font-family:'Instrument Serif',serif;font-size:22px;
+    color:var(--ink-dim);line-height:1.4;max-width:600px;
+  }
+  .project-lede em{color:var(--ink);font-style:italic}
+
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    margin:48px 0 0;padding:24px 0;
+    border-top:1px solid var(--border);
+  }
+  .meta-cell .label{
+    font-size:10px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:8px;
+  }
+  .meta-cell .value{font-size:14px;color:var(--ink)}
+
+  section.content{padding:80px 0;border-bottom:1px solid var(--border)}
+  section.content:last-of-type{border-bottom:none}
+  h2{font-size:26px;font-weight:600;letter-spacing:-0.02em;margin-bottom:20px}
+  h3{font-size:15px;font-weight:600;color:var(--ink);margin:32px 0 10px}
+  p{color:var(--ink-dim);margin-bottom:18px;font-size:15px;line-height:1.7}
+  p strong{color:var(--ink);font-weight:500}
+  ul{color:var(--ink-dim);padding-left:20px;margin-bottom:18px}
+  ul li{margin-bottom:8px;line-height:1.7}
+
+  .callout{
+    padding:24px 28px;border-left:2px solid var(--accent);
+    background:rgba(255,74,46,0.04);border-radius:0 8px 8px 0;
+    margin:32px 0;
+  }
+  .callout p{margin:0;color:var(--ink);font-size:15px}
+
+  .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--ink);transition:all 0.2s;
+  }
+  .link-btn:hover{background:var(--ink);color:var(--bg)}
+
+  .next{padding:60px 0 80px;text-align:center}
+  .next .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:16px;
+  }
+  .next h3.next-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:40px;letter-spacing:-0.02em;margin-bottom:16px;
+    transition:color 0.3s;
+  }
+  .next a:hover .next-title{color:var(--accent)}
+  .next .arrow{font-size:13px;color:var(--ink-dim)}
+
+  footer{
+    padding:24px 0;border-top:1px solid var(--border);
+    text-align:center;font-size:12px;color:var(--ink-faint);
+  }
+
+  @media (max-width:720px){
+    nav{padding:16px 20px}
+    .project-hero{padding:100px 0 40px}
+    .meta-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="brand">Nichol</a>
+  <a href="../index.html#projects" class="back">← All projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="wrap">
+    <div class="tag-row">
+      <span class="tag">NLP</span>
+      <span class="tag">GenAI</span>
+      <span class="tag">LLM</span>
+      <span class="tag">Retrieval</span>
+    </div>
+    <h1 class="project-title">RAG System Design &amp; Evaluation</h1>
+    <p class="project-lede">A retrieval-augmented generation system built to answer technical questions from a corpus of <em>ArXiv papers, Wikipedia articles, and NLP blogs</em>, with tailored responses for two very different audiences.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="content">
+  <div class="wrap">
+    <h2>Problem</h2>
+    <p>A tech company wanted to use GenAI to help internal teams stay current on NLP research. Two personas needed answers from the same corpus: engineers who wanted technical depth and marketing staff who needed accessible summaries. The system had to retrieve the right context and generate answers that matched the audience, not just the question.</p>
+    <p>The corpus included 18+ ArXiv papers, Wikipedia articles on generative AI, and blog posts covering open-domain QA, prompt engineering, and attention mechanisms.</p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="content">
+  <div class="wrap">
+    <h2>Approach</h2>
+    <p>I tested chunk sizes from 128 to 768 tokens and landed on 448-512 with 50-64 overlap. Smaller chunks fragmented technical explanations; larger ones diluted precision. I chose multi-qa-mpnet-base-dot-v1 as the embedding model after testing five sentence-transformer variants, and stored embeddings in Qdrant.</p>
+    <p>Initial retrieval with small k values (8-10) wasn't consistently surfacing the best matches. I pushed k to 30 and added a Cohere reranker, which caught relevance that cosine similarity missed. A soft deduplication step (0.9 cosine threshold) filtered near-duplicate chunks before generation.</p>
+    <p>Both personas received the same retrieved context but different system prompts. The engineering prompt required technically grounded, source-traceable responses. The marketing prompt required accessible, jargon-free summaries. Early marketing prompt versions still produced research-abstract-style responses, requiring iteration to get right.</p>
+    <p>I evaluated using LLM-as-a-Judge (Groq/Llama3-70b scoring against gold answers on a 1-5 scale) and RAGAS context precision (measuring retrieval relevance separately from generation quality). The combination let me diagnose whether a bad answer came from bad context or bad generation. The test set included out-of-domain questions to verify the system would decline rather than hallucinate.</p>
+    <p>Parameters iterated on: chunk size (128-768), overlap (0-96), retriever k (8-30), five embedding models, Cohere reranking, soft dedup, and two LLMs (Mistral-7B quantized vs. Cohere). Each configuration was batch-evaluated with async processing and retry logic to handle token and rate limits.</p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="content">
+  <div class="wrap">
+    <h2>Results</h2>
+    <p>The final configuration achieved strong LLM-as-a-Judge scores (4-5 out of 5) on engineering and marketing responses across the validation set. Key findings from experimentation:</p>
+    <ul>
+      <li><strong>Chunking was the highest-leverage decision.</strong> Chunk size affected answer quality more than which LLM generated the response.</li>
+      <li><strong>Reranking outperformed retriever tuning.</strong> Pulling back 30 documents and reranking beat trying to get the retriever to return only the best 8.</li>
+      <li><strong>Separating retrieval and generation evaluation was critical.</strong> A good final answer could mask bad retrieval, and measuring both independently pointed to different fixes.</li>
+      <li><strong>Token economics shaped the architecture.</strong> Full evaluation suites exhausted API limits, forcing batch processing, retries, and prioritization of which metrics to run when tokens ran low.</li>
+    </ul>
+
+
+  </div>
+</section>
+
+<!-- NEXT PROJECT -->
+<div class="wrap">
+  <section class="next">
+    <div class="eyebrow">Next project</div>
+    <a href="project-7.html">
+      <h3 class="next-title">What Shapes How Long We Sleep? →</h3>
+    </a>
+    <div class="arrow">Statistics · R</div>
+  </section>
+</div>
+
+<footer>© 2026 Nichol Flowers</footer>
+
+</body>
+</html>
