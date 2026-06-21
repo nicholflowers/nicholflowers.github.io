@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eye2Voice Gaze Model · Nichol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#103d2d;
+    --bg-soft:rgba(255,255,255,0.03);
+    --border:rgba(255,255,255,0.1);
+    --ink:#ffffff;
+    --ink-dim:#a7bdb1;
+    --ink-faint:#6f857a;
+    --accent:#ff4a2e;
+    --hero-tint:#17573f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:20px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:rgba(13,45,33,0.82);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+  }
+  nav .brand{color:var(--ink);font-weight:500}
+  nav .back{
+    color:var(--ink-dim);display:inline-flex;align-items:center;gap:6px;
+    transition:color 0.2s;
+  }
+  nav .back:hover{color:var(--ink)}
+
+  /* HERO SECTION */
+  .project-hero{
+    padding:140px 0 0;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,0.04),transparent 60%),
+      linear-gradient(180deg,var(--hero-tint),transparent 80%);
+  }
+  .tag-row{
+    display:flex;gap:10px;margin-bottom:24px;
+  }
+  .tag{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(255,255,255,0.08);color:var(--ink);
+    backdrop-filter:blur(10px);
+  }
+  .tag.featured{background:var(--accent);color:#fff}
+  h1.project-title{
+    font-family:'Instrument Serif',serif;font-style:normal;
+    font-size:clamp(44px,7.5vw,72px);font-weight:400;
+    letter-spacing:-0.02em;line-height:1.05;margin-bottom:20px;
+  }
+  .project-lede{
+    font-family:'Instrument Serif',serif;font-size:22px;
+    color:var(--ink-dim);line-height:1.4;max-width:600px;margin-bottom:0;
+  }
+  .project-lede em{color:var(--ink);font-style:italic}
+
+  /* META BAR */
+  .meta-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    margin:48px 0 0;padding:24px 0;
+    border-top:1px solid var(--border);
+  }
+  .meta-cell .label{
+    font-size:10px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:8px;
+  }
+  .meta-cell .value{font-size:14px;color:var(--ink)}
+
+  /* CONTENT */
+  section.content{padding:0}
+  .content p:last-child,.content ul:last-child{margin-bottom:0}
+  .recognition-accent{position:relative}
+  .recognition-accent::before{content:"";position:absolute;left:12px;top:4px;bottom:4px;width:2px;background:var(--accent);border-radius:1px}
+  h2{
+    font-family:'Instrument Serif',serif;
+    font-size:30px;font-weight:400;letter-spacing:-0.01em;
+    margin:36px 0 8px;
+  }
+  h3{
+    font-size:15px;font-weight:600;
+    color:var(--ink);margin:32px 0 10px;
+  }
+  p{color:var(--ink-dim);margin-bottom:18px;font-size:22px;line-height:1.6;font-family:'Instrument Serif',serif}
+  p strong{color:var(--ink);font-weight:500}
+  ul{color:var(--ink-dim);padding-left:20px;margin-bottom:18px}
+  ul li{margin-bottom:8px;line-height:1.6;font-size:20px;font-family:'Instrument Serif',serif}
+
+  .callout{
+    padding:24px 28px;border-left:2px solid var(--accent);
+    background:rgba(255,74,46,0.04);border-radius:0 8px 8px 0;
+    margin:32px 0;
+  }
+  .callout p{margin:0;color:var(--ink);font-size:15px}
+
+  /* METRICS */
+  .metrics{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    margin:32px 0;
+  }
+  .metric{
+    padding:24px;border:1px solid var(--border);border-radius:12px;
+    text-align:center;background:var(--bg-soft);
+  }
+  .metric .num{
+    font-family:'Instrument Serif',serif;font-size:40px;
+    color:var(--ink);line-height:1;margin-bottom:8px;
+  }
+  .metric .lbl{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.15em;
+    color:var(--ink-faint);
+  }
+
+  /* LINKS OUT */
+  .links{
+    display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;
+  }
+  .link-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 18px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--ink);transition:all 0.2s;
+  }
+  .link-btn:hover{background:var(--ink);color:var(--bg)}
+
+  /* NEXT PROJECT */
+  .next{
+    padding:60px 0 80px;text-align:center;
+  }
+  .next .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:0.2em;
+    color:var(--ink-faint);margin-bottom:16px;
+  }
+  .next h3.next-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:40px;letter-spacing:-0.02em;margin-bottom:16px;
+    transition:color 0.3s;
+  }
+  .next a:hover .next-title{color:var(--accent)}
+  .next .arrow{font-size:13px;color:var(--ink-dim)}
+
+  footer{
+    padding:24px 0;border-top:1px solid var(--border);
+    text-align:center;font-size:12px;color:var(--ink-faint);
+  }
+
+  @media (max-width:720px){
+    nav{padding:16px 20px}
+    .project-hero{padding:100px 0 40px}
+    .meta-bar{grid-template-columns:repeat(2,1fr);gap:20px}
+    .metrics{grid-template-columns:1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html#projects" class="back">← All projects</a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="wrap">
+    <h1 class="project-title">Eye2Voice</h1>
+    <p class="project-lede">Eye2Voice is a real-time, <em>gaze-to-speech</em> tool for people who cannot communicate verbally. A phone camera reads the user's gaze direction (up/down, left/right) to make a selection.</p>
+  </div>
+</section>
+
+<!-- RECOGNITION -->
+<section class="content">
+  <div class="wrap recognition-accent">
+    <h2>Recognition</h2>
+    <p>Eye2Voice received the <strong>Hal R. Varian MIDS Capstone Award</strong>, given to top projects each semester and named in honor of Hal R. Varian, founding dean of the Berkeley School of Information and former chief economist at Google. Projects are judged on originality, potential impact, completeness, evaluation, presentation and overall quality.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="content">
+  <div class="wrap">
+    <h2>The Problem</h2>
+    <p>Each year in the United States, 5.4 million people experience physical paralysis. Among children with autism, 1 in 4 are non-verbal or minimally verbal. For people who cannot speak, the tools that help are out of reach for most. Dedicated communication devices cost around $12,000 and take weeks to set up. They also depend on hardware that can break or wear out.</p>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="content">
+  <div class="wrap">
+    <h2>Our Solution</h2>
+    <p>Eye2Voice addresses that gap. It runs in the browser on a device the user already owns, with little to no setup. It offers two modes. In <strong>Conversation mode</strong>, someone poses a question to the user by voice or text, a language model generates a set of likely responses and the user answers by looking Up, Down, Left, or Right to choose one. In <strong>Quick Chat mode</strong>, the user moves through a guided tree of common phrases, which is faster for everyday exchanges and needs no question first.</p>
+    <p>The interface adapts to each person. A caregiver can switch between two and three block layouts, so users with more limited movement get fewer, easier targets and can adjust how long a gaze must hold before it registers. Selections are confirmed by a long gaze or a double blink. Color schemes for text and background can be personalized for easier reading and a read aloud option announces each choice for users who cannot read the screen.</p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="content">
+  <div class="wrap">
+    <h2>The Approach</h2>
+    <p>We built a multi-input convolutional neural network, since CNNs handle image data well. Rather than predicting exact gaze coordinates, it classifies the direction the user is looking, which suits people who cannot hold a steady gaze and removes the need for special hardware or calibration.</p>
+    <p>It takes three image crops from each frame &mdash; the face and each eye &mdash; plus seven geometric measurements from facial landmarks, such as iris position and head angle, fed as numbers rather than pixels.</p>
+    <p>Each input feeds its own branch: a shared network reads both eyes for gaze direction and pupil state, a second reads the face for head orientation and a third handles the geometric measurements. The branches merge into a single vector and a final classifier scores each direction, taking the highest as the prediction.</p>
+    <p>We trained it on two public datasets:</p>
+    <ul>
+      <li><strong>MIT's GazeCapture</strong>, about 850,000 images captured on everyday phones and tablets, covering a wide range of lighting, head position and device angle.</li>
+      <li><strong>ETH-XGaze</strong>, over 1 million images captured in a lab with 18 cameras under controlled lighting, covering the extreme head poses and wider gaze angles that GazeCapture handled poorly.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="content">
+  <div class="wrap">
+    <h2>The Challenges</h2>
+    <p>Two challenges shaped the work. The first was persistent overfitting, a gap between training and validation accuracy that indicated the model was memorizing rather than generalizing. Uneven participant data was one suspected factor, since some people contributed as few as 18 frames and others several thousand. Balancing those frame counts narrowed the gap only partway.</p>
+    <p>The second was inconsistent class identification. The Up direction was recognized far less reliably than the others, as it made up only about 3% of the training data. Several measures helped, including augmentation, loss-level adjustments and supplemental Up samples.</p>
+    <p>The most effective single change was removing the Straight (center) class, a persistent source of error and unnecessary for a four-direction interface. That one change improved both problems at once, raising Up recall and narrowing the overfitting gap.</p>
+  </div>
+</section>
+
+<!-- EVALUATION -->
+<section class="content">
+  <div class="wrap">
+    <h2>The Evaluation</h2>
+    <p>A model can score well on data and still fail a real person, so we tested in three ways: on data, in live use and with real users.</p>
+    <p>First, we checked whether the model learned to read gaze correctly. We held back a portion of the GazeCapture data that the model never trained on, then measured how often it predicted the right direction. We looked at accuracy overall and at each direction on its own, since a model can do well on average while consistently missing one direction, which would make that part of the interface unusable.</p>
+    <p>Next, we checked whether it held up in actual use, which a data score alone cannot tell you. We built a small test app that asked a person to look in a given direction across 24 trials, then recorded how often the model read the direction correctly and how long it took to respond. We ran this across different devices, seating positions and camera setups to mimic real conditions.</p>
+    <p>Finally, we put the tool in front of real users, including a speech-language pathologist and a caregiver of someone who relies on assistive communication. Their feedback told us whether Eye2Voice actually worked for the people it is meant to serve, the test that matters most.</p>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="content">
+  <div class="wrap">
+    <h2>The Results</h2>
+    <p>Overfitting peaked at roughly 17%, too high for assistive technology. By the final version, the model improved across the board:</p>
+    <ul>
+      <li><strong>Test accuracy:</strong> 75% &rarr; 92%</li>
+      <li><strong>Overfitting (train-validation gap):</strong> ~17% &rarr; ~4%</li>
+      <li><strong>Recall by direction:</strong>
+        <ul>
+          <li>Up: 84% (up from ~61%)</li>
+          <li>Down: 93%</li>
+          <li>Left: 92%</li>
+          <li>Right: 91%</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="wrap">
+    <p style="font-size:16px;color:var(--ink-dim);font-weight:300;margin-top:24px;margin-bottom:0">*Eye2Voice is a live product under active development, so the code is private.</p>
+  </div>
+</section>
+
+<!-- WEBSITE / DEMO -->
+<div class="wrap" style="text-align:center;margin-top:64px">
+  <a href="https://www.eye2voice.com" class="link-btn" target="_blank" rel="noopener" style="background:var(--accent);color:#fff;border-color:var(--accent)">Website | Demo ↗</a>
+</div>
+
+<!-- BACK TO PROJECTS -->
+<div class="wrap">
+  <section class="next">
+    <a href="../index.html#projects">
+      <h3 class="next-title">← Back to Projects</h3>
+    </a>
+  </section>
+</div>
+
+<footer>© 2026 Nichol Flowers</footer>
+
+</body>
+</html>
