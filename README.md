@@ -1,4 +1,4 @@
-# Nichol Flowers — Project Portfolio
+# Project Portfolio
 
 Personal portfolio showcasing my data science and AI/ML projects.
 
